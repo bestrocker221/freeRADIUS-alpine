@@ -1,0 +1,68 @@
+# Docker-Compose file for Stockholm Network
+version: '3'
+
+services:
+  radius_server:
+    container_name: ${COMPOSE_PROJECT_NAME}_radius
+    hostname: radius.acme.com
+    restart: always
+    build:
+      context: ./radius
+      args:
+        - DB_VLAN1=${DB_VLAN1}
+        - RADIUS_USR_PASSWORD=${RADIUS_USR_PASSWORD}
+        - REALM=${RADIUS_REALM}
+        - RADIUS_SECRET=${RADIUS_SECRET}
+    networks:
+      sto_vlan1:
+        ipv4_address: ${RADIUS_VLAN1}
+    ports:
+      - "1812:1812/udp"
+      - "1813:1813/udp"
+    volumes:
+      - ./radius/logs:/var/log/radius
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    links:
+      - mysql_db:database
+    depends_on:
+      - "mysql_db"
+
+  mysql_db:
+    container_name: ${COMPOSE_PROJECT_NAME}_mysql
+    hostname: mysql.acme.com
+    restart: always
+    build:
+      context: ./mysql
+      args:
+        - DB_VLAN1=${DB_VLAN1}
+        - MYSQL_CONTAINER_USER=mysql
+        - MYSQL_CONTAINER_GROUP=mysql
+        - MYSQL_DATA_DIR=${MYSQL_DATA_DIR}
+        - MYSQL_LOG_DIR=${MYSQL_LOG_DIR}
+        - RADIUS_USR_PASSWORD=${RADIUS_USR_PASSWORD}
+        - RADIUS_VLAN1=${RADIUS_VLAN1}
+    networks:
+      sto_vlan1:
+        ipv4_address: ${DB_VLAN1}
+    volumes:
+      - ./mysql/data:${MYSQL_DATA_DIR}
+      - ./mysql/log/:${MYSQL_LOG_DIR}
+      # TODO FIX LOCALTIME IN MYSQL CONTAINER
+      #- "/etc/timezone:/etc/timezone:ro"
+      #- "/etc/localtime:/etc/localtime:ro"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_CONTAINER_USER: "mysql"
+      MYSQL_CONTAINER_GROUP: "mysql"
+      MYSQL_DATABASE: "radius"
+
+networks:
+  sto_vlan1:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${VLAN1_SUBNET}
