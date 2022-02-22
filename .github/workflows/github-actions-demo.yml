@@ -1,5 +1,5 @@
 name: Composebuild
-on: [workflow_dispatch]
+on: [push]
 jobs:
   ComposeBuild:
     runs-on: ubuntu-latest
