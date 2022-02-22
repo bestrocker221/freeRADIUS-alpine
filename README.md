@@ -1,4 +1,6 @@
 # freeRADIUS-alpine
+[![Build project](https://github.com/bestrocker221/freeRADIUS-alpine/actions/workflows/github-actions-demo.yml/badge.svg)](https://github.com/bestrocker221/freeRADIUS-alpine/actions/workflows/github-actions-demo.yml)
+
 FreeRADIUS 3 built on alpine with MySQL 8
 
 In this example i called `mysql.acme.com` the MySQL Container and certificates are signed with the CA.
@@ -9,3 +11,5 @@ In this example i called `mysql.acme.com` the MySQL Container and certificates a
 - FreeRADIUS will allow EAP-TTLS for outside clients
 
 Everything travel encrypted.
+
+Work in progress
