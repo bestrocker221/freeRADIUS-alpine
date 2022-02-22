@@ -1,13 +1,9 @@
-name: GitHub Actions Demo
+name: Compose build
 on: [workflow_dispatch]
 jobs:
-  Explore-GitHub-Actions:
+  Compose Build:
     runs-on: ubuntu-latest
     steps:
-      - name: Install docker
-        run: |
-          apt install -y docker docker-compose
-      - name: Build repo
-        run: |
-          docker-compose build
-      - run: echo "This job's status is ${{ job.status }}."
+      - uses: actions/checkout@v2
+      - name: Build the stack
+        run: docker-compose build
