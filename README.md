@@ -13,3 +13,7 @@ In this example i called `mysql.acme.com` the MySQL Container and certificates a
 Everything travel encrypted.
 
 Work in progress
+
+# TODO
+- add config option to setup MSCHAP towards AD
+- add certificates generation script + tutorial
