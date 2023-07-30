@@ -23,3 +23,13 @@ Work in progress
 ## TODO
 - add config option to setup MSCHAP towards AD
 - add certificates generation script + tutorial
+
+## Error with buildx - Docker-compose
+export DOCKER_BUILDKIT=0 
+export PROGRESS_NO_TRUNC=1
+docker-compose  --verbose --progress=plain build
+
+## Test locally
+`eapol_test -a127.0.0.1 -p1812 -stest -ceapol-tls.conf -r0 -stesting123`
+
+should return `SUCCESS`.

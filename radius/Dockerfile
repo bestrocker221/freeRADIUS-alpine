@@ -34,10 +34,11 @@ RUN sed -i -e 's@RADIUS_USR_PASSWORD@'${RADIUS_USR_PASSWORD}'@g' /etc/raddb/mods
 	
 
 COPY start.sh /
+
 RUN chmod 750 /start.sh && \
 	usermod -u 1000 radius && \
  	groupmod -g 1000 radius && \
- 	chown radius:radius -R /var/log/radius /etc/raddb && \
+ 	chown radius -R /var/log/radius /etc/raddb && \
  	echo "${DB_VLAN1}		mysql.acme.com" >> /etc/hosts
 
 

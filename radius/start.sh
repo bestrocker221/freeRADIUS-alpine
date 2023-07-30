@@ -17,6 +17,7 @@
 #
 # Start radius.
 #
+chown -R radius /var/log/radius
 
 cd /etc/raddb/mods-enabled 
 ln -s ../mods-available/sql sql
